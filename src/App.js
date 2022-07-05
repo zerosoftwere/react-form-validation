@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { useRef } from "react";
+import "./App.module.css";
+import { Container, Form, Jumbotron } from './UI';
+import {email, required} from './validators';
 
-function App() {
+const App = () => {
+  const formRef = useRef();
+
+  const handleSubmit = (value) => {
+    console.log(formRef.current.value);
+    formRef.current.clear();
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Jumbotron text="Registration" />
+      <Form 
+        items={[
+          {label: 'First Name', name: 'firstName', validator: required},
+          {label: 'Last Name', name: 'lastName', validator: required},
+          {label: 'Email Address', name: 'email', validator: email},
+          {label: 'Username', name: 'username', validator: required},
+          {label: 'Password', name: 'password', type:"password", validator: required},
+          {label: 'Confirm Password', name: 'confirmPassword', type: "password",  validator: required}
+        ]}
+        onSubmit={handleSubmit}
+        ref={formRef}
+      />
+    </Container>
   );
-}
+};
 
 export default App;
